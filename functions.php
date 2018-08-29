@@ -178,6 +178,19 @@ function add_slug_to_body_class($classes)
 // If Dynamic Sidebar Exists
 if (function_exists('register_sidebar'))
 {
+
+
+     // Define Header Widget Area 
+    register_sidebar(array(
+        'name' => __('Header Widget 1', 'unicorn'),
+        'description' => __('Download buttons links etc...', 'unicorn'),
+        'id' => 'header-widget-area',
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h3>',
+        'after_title' => '</h3>'
+    ));
+
     // Define Sidebar Widget Area 1
     register_sidebar(array(
         'name' => __('Widget Area 1', 'html5blank'),
@@ -472,90 +485,82 @@ function html5_shortcode_demo_2($atts, $content = null) // Demo Heading H2 short
  * Adds Custom_Download_Button widget.
  */
 
-class iOS_Widget extends WP_Widget {
+class Button_Widget extends WP_Widget {
 
-    /**
-     * Register widget with WordPress.
-     */
+    public function __construct() {
 
-    function __construct() {
         parent::__construct(
-            'iOS download button', // Base ID
-            __('Download button', 'text_domain'), // Widget Name
-            array( 'description' => __( 'App Store Button', 'text_domain' ), )
+            'cta-button-widget',
+            __( 'Download iOS button', 'cta' ),
+            array(
+                'description' => __( 'Creates a custome button for download ', 'cta' ),
+                'classname'   => 'cta-button-widget',
+            )
         );
+
     }
 
-    
-    // array $instance Saved values from database.
     public function widget( $args, $instance ) {
-        $title = apply_filters( 'widget_title', $instance['title'] );
 
-        echo $args['before_widget'];
-        if ( ! empty( $title ) )
-            echo $args['before_title'] . $title . $args['after_title'];
-            echo $instance['text'];
-            echo $args['after_widget'];
+        echo '<button class="cta-button '.$instance['cta_button_class'].'">
+                <span class="icon"></span><a href="'.$instance['cta_button_url'].'">'.$instance['cta_button_text'].'</a>
+             </button>';
+
     }
 
-    /**
-     * Back-end widget form.
-     *
-     * @see WP_Widget::form()
-     *
-     * @param array $instance Previously saved values from database.
-     */
     public function form( $instance ) {
-        
-        // if text contain a value, save it to $text
-        if ( isset( $instance[ 'text' ] ) ) {
-            $text = $instance[ 'text' ];
-        }
-        // if title contain a value, save it to $title
-        if ( isset( $instance[ 'title' ] ) ) {
-            $title = $instance[ 'title' ];
-        }
-        else {
-            // else set the $title to string Hello Title
-            $title = __( 'Hello Title', 'text_domain' );
-        }
-        ?>
-        <p>
-        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
-        <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
-        </p>
-        
-        <p>
-        <label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text:' ); ?></label> 
-        <input class="widefat" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>" type="text" value="<?php echo esc_attr( $text ); ?>">
-        </p>
-        <?php 
+
+        // Set default values
+        $instance = wp_parse_args( (array) $instance, array( 
+            'cta_button_text' => '',
+            'cta_button_url' => '',
+            'cta_button_class' => '',
+        ) );
+
+        // Retrieve an existing value from the database
+        $cta_button_text = !empty( $instance['cta_button_text'] ) ? $instance['cta_button_text'] : '';
+        $cta_button_url = !empty( $instance['cta_button_url'] ) ? $instance['cta_button_url'] : '';
+        $cta_button_class = !empty( $instance['cta_button_class'] ) ? $instance['cta_button_class'] : '';
+
+        // Form fields
+        echo '<p>';
+        echo '  <label for="' . $this->get_field_id( 'cta_button_text' ) . '" class="cta_button_text_label">' . __( 'Button Text', 'cta' ) . '</label>';
+        echo '  <input type="text" id="' . $this->get_field_id( 'cta_button_text' ) . '" name="' . $this->get_field_name( 'cta_button_text' ) . '" class="widefat" placeholder="' . esc_attr__( 'Download text', 'cta' ) . '" value="' . esc_attr( $cta_button_text ) . '">';
+        echo '</p>';
+
+        echo '<p>';
+        echo '  <label for="' . $this->get_field_id( 'cta_button_url' ) . '" class="cta_button_url_label">' . __( 'Button URL', 'cta' ) . '</label>';
+        echo '  <input type="text" id="' . $this->get_field_id( 'cta_button_url' ) . '" name="' . $this->get_field_name( 'cta_button_url' ) . '" class="widefat" placeholder="' . esc_attr__( 'App URL https://appstoreyourapp', 'cta' ) . '" value="' . esc_attr( $cta_button_url ) . '">';
+        echo '  <span class="description">' . __( 'Use absolute or relative url', 'cta' ) . '</span>';
+        echo '</p>';
+
+        echo '<p>';
+        echo '  <label for="' . $this->get_field_id( 'cta_button_class' ) . '" class="cta_button_class_label">' . __( 'Extra class to add to the button', 'cta' ) . '</label>';
+        echo '  <input type="text" id="' . $this->get_field_id( 'cta_button_class' ) . '" name="' . $this->get_field_name( 'cta_button_class' ) . '" class="widefat" placeholder="' . esc_attr__( '', 'cta' ) . '" value="' . esc_attr( $cta_button_class ) . '">';
+        echo '</p>';
+
     }
 
-    /**
-     * Sanitize widget form values as they are saved.
-     *
-     * @see WP_Widget::update()
-     *
-     * @param array $new_instance Values just sent to be saved.
-     * @param array $old_instance Previously saved values from database.
-     *
-     * @return array Updated safe values to be saved.
-     */
     public function update( $new_instance, $old_instance ) {
-        $instance = array();
-        $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-        $instance['text'] = ( ! empty( $new_instance['text'] ) ) ? strip_tags( $new_instance['text'] ) : '';
+
+        $instance = $old_instance;
+
+        $instance['cta_button_text'] = !empty( $new_instance['cta_button_text'] ) ? strip_tags( $new_instance['cta_button_text'] ) : '';
+        $instance['cta_button_url'] = !empty( $new_instance['cta_button_url'] ) ? strip_tags( $new_instance['cta_button_url'] ) : '';
+        $instance['cta_button_class'] = !empty( $new_instance['cta_button_class'] ) ? strip_tags( $new_instance['cta_button_class'] ) : '';
 
         return $instance;
+
     }
 
-} // class Foo_Widget
-
-// register Foo_Widget widget
-function register_hello_widget() {
-    register_widget ( 'iOS_Widget' );
 }
-add_action( 'widgets_init', 'register_hello_widget' );
+
+/**
+/* Fire up this widget  
+*/
+function cta_register_widgets() {
+    register_widget( 'Button_Widget' );
+}
+add_action( 'widgets_init', 'cta_register_widgets' );
 
 ?>

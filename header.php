@@ -49,7 +49,7 @@
 
 					  <!-- apps -->
                       <section class="button-download" role="button">
-                     	<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('widget-area-1')) ?>
+                     	<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('header-widget-area')) ?>
                       </section>
                       <!-- /apps -->
 
