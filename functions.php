@@ -63,14 +63,13 @@ if (function_exists('add_theme_support'))
 \*------------------------------------*/
 
 // HTML5 Blank navigation
-function html5blank_nav()
+function header_nav()
 {
 	wp_nav_menu(
 	array(
 		'theme_location'  => 'header-menu',
 		'menu'            => '',
 		'container'       => 'div',
-		'container_class' => 'menu-{menu slug}-container',
 		'container_id'    => '',
 		'menu_class'      => 'menu',
 		'menu_id'         => '',
@@ -98,8 +97,12 @@ function html5blank_header_scripts()
         wp_register_script('modernizr', get_template_directory_uri() . '/js/lib/modernizr-2.7.1.min.js', array(), '2.7.1'); // Modernizr
         wp_enqueue_script('modernizr'); // Enqueue it!
 
-        wp_register_script('html5blankscripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0'); // Custom scripts
-        wp_enqueue_script('html5blankscripts'); // Enqueue it!
+        wp_register_script('retinajs', get_template_directory_uri() . '/js/lib/retina.js', array(), '1.0.0'); // retina scripts
+        wp_enqueue_script('retinajs'); // Enqueue it!
+
+        wp_register_script('vendorscripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '1.0.0'); // Custom scripts
+        wp_enqueue_script('vendorscripts'); // Enqueue it!
+
     }
 }
 
@@ -118,7 +121,10 @@ function html5blank_styles()
     wp_register_style('normalize', get_template_directory_uri() . '/normalize.css', array(), '1.0', 'all');
     wp_enqueue_style('normalize'); // Enqueue it!
 
-    wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
+    wp_register_style('unicorn', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
+    wp_enqueue_style('unicorn'); // Enqueue it!
+
+    wp_register_style('html5blank', get_template_directory_uri() . '/fonts/font.css', array(), '1.0', 'all');
     wp_enqueue_style('html5blank'); // Enqueue it!
 }
 
@@ -126,7 +132,7 @@ function html5blank_styles()
 function register_html5_menu()
 {
     register_nav_menus(array( // Using array to specify more menus if needed
-        'header-menu' => __('Header Menu', 'html5blank'), // Main Navigation
+        'header-menu' => __('Header Menu', 'header_nav'), // Main Navigation
         'sidebar-menu' => __('Sidebar Menu', 'html5blank'), // Sidebar Navigation
         'extra-menu' => __('Extra Menu', 'html5blank') // Extra Navigation if needed (duplicate as many as you need!)
     ));
@@ -448,5 +454,108 @@ function html5_shortcode_demo_2($atts, $content = null) // Demo Heading H2 short
 {
     return '<h2>' . $content . '</h2>';
 }
+
+
+/*------------------------------------*\
+    Custom Widgets
+\*------------------------------------*/
+
+/*
+  Plugin Name: iOS download button
+  Plugin URI: http://mypony.com
+  Description: Download button by Denis
+  Author: Denis Sekovanic
+  Author URI: http://mypony.com
+ */
+ 
+/**
+ * Adds Custom_Download_Button widget.
+ */
+
+class iOS_Widget extends WP_Widget {
+
+    /**
+     * Register widget with WordPress.
+     */
+
+    function __construct() {
+        parent::__construct(
+            'iOS download button', // Base ID
+            __('Download button', 'text_domain'), // Widget Name
+            array( 'description' => __( 'App Store Button', 'text_domain' ), )
+        );
+    }
+
+    
+    // array $instance Saved values from database.
+    public function widget( $args, $instance ) {
+        $title = apply_filters( 'widget_title', $instance['title'] );
+
+        echo $args['before_widget'];
+        if ( ! empty( $title ) )
+            echo $args['before_title'] . $title . $args['after_title'];
+            echo $instance['text'];
+            echo $args['after_widget'];
+    }
+
+    /**
+     * Back-end widget form.
+     *
+     * @see WP_Widget::form()
+     *
+     * @param array $instance Previously saved values from database.
+     */
+    public function form( $instance ) {
+        
+        // if text contain a value, save it to $text
+        if ( isset( $instance[ 'text' ] ) ) {
+            $text = $instance[ 'text' ];
+        }
+        // if title contain a value, save it to $title
+        if ( isset( $instance[ 'title' ] ) ) {
+            $title = $instance[ 'title' ];
+        }
+        else {
+            // else set the $title to string Hello Title
+            $title = __( 'Hello Title', 'text_domain' );
+        }
+        ?>
+        <p>
+        <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+        <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
+        </p>
+        
+        <p>
+        <label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text:' ); ?></label> 
+        <input class="widefat" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>" type="text" value="<?php echo esc_attr( $text ); ?>">
+        </p>
+        <?php 
+    }
+
+    /**
+     * Sanitize widget form values as they are saved.
+     *
+     * @see WP_Widget::update()
+     *
+     * @param array $new_instance Values just sent to be saved.
+     * @param array $old_instance Previously saved values from database.
+     *
+     * @return array Updated safe values to be saved.
+     */
+    public function update( $new_instance, $old_instance ) {
+        $instance = array();
+        $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+        $instance['text'] = ( ! empty( $new_instance['text'] ) ) ? strip_tags( $new_instance['text'] ) : '';
+
+        return $instance;
+    }
+
+} // class Foo_Widget
+
+// register Foo_Widget widget
+function register_hello_widget() {
+    register_widget ( 'iOS_Widget' );
+}
+add_action( 'widgets_init', 'register_hello_widget' );
 
 ?>

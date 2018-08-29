@@ -1,0 +1,66 @@
+
+@font-face {
+    font-family: 'museo-sans-rounded100';
+    src: url('museosansrounded-100-webfont.woff2') format('woff2'),
+         url('museosansrounded-100-webfont.woff') format('woff'),
+         url('museosansrounded-100-webfont.ttf') format('truetype'),
+         url('museosansrounded-100-webfont.svg#museo_sans_rounded100') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo-sans-rounded300';
+    src: url('museosansrounded-300-webfont.woff2') format('woff2'),
+         url('museosansrounded-300-webfont.woff') format('woff'),
+         url('museosansrounded-300-webfont.ttf') format('truetype'),
+         url('museosansrounded-300-webfont.svg#museo_sans_rounded300') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo-sans-rounded500';
+    src: url('museosansrounded-500-webfont.woff2') format('woff2'),
+         url('museosansrounded-500-webfont.woff') format('woff'),
+         url('museosansrounded-500-webfont.ttf') format('truetype'),
+         url('museosansrounded-500-webfont.svg#museo_sans_rounded500') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo-sans-rounded700';
+    src: url('museosansrounded-700-webfont.woff2') format('woff2'),
+         url('museosansrounded-700-webfont.woff') format('woff'),
+         url('museosansrounded-700-webfont.ttf') format('truetype'),
+         url('museosansrounded-700-webfont.svg#museo_sans_rounded700') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo-sans-rounded900';
+    src: url('museosansrounded-900-webfont.woff2') format('woff2'),
+         url('museosansrounded-900-webfont.woff') format('woff'),
+         url('museosansrounded-900-webfont.ttf') format('truetype'),
+         url('museosansrounded-900-webfont.svg#museo_sans_rounded900') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'museo-sans-rounded1000';
+    src: url('museosansrounded-1000-webfont.woff2') format('woff2'),
+         url('museosansrounded-1000-webfont.woff') format('woff'),
+         url('museosansrounded-1000-webfont.ttf') format('truetype'),
+         url('museosansrounded-1000-webfont.svg#museo_sans_rounded1000') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

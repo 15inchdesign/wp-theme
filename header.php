@@ -35,16 +35,30 @@
 					<div class="logo">
 						<a href="<?php echo home_url(); ?>">
 							<!-- svg logo - toddmotto.com/mastering-svg-use-for-a-retina-web-fallbacks-with-png-script -->
-							<img src="<?php echo get_template_directory_uri(); ?>/img/logo.svg" alt="Logo" class="logo-img">
+							<img src="<?php echo get_template_directory_uri(); ?>/img/Logo.png" alt="Logo" data-rjs="2" class="logo-img">
+						
 						</a>
 					</div>
 					<!-- /logo -->
 
 					<!-- nav -->
 					<nav class="nav" role="navigation">
-						<?php html5blank_nav(); ?>
+						<?php header_nav(); ?>
 					</nav>
 					<!-- /nav -->
+
+					  <!-- apps -->
+                      <section class="button-download" role="button">
+                     	<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('widget-area-1')) ?>
+                      </section>
+                      <!-- /apps -->
+
+					<!-- hero -->
+					<section class="hero" role="banner">
+						<div class="hero-img"></div>
+						<article></article>
+					</section>
+				   <!-- /hero-->	
 
 			</header>
 			<!-- /header -->
