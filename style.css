@@ -261,6 +261,11 @@ header {
 	color: #ffffff;
 	text-transform: uppercase;
  }
+ .log-button  a {
+ 	font-family: 'museo-sans-rounded500', Helvetica, Arial, sans-serif;
+ 	font-size: 1.364rem;
+ 	text-transform: none;
+ }
 
  .nav ul li a {
  	font-family: 'museo-sans-rounded700', Helvetica, Arial, sans-serif;
