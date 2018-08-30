@@ -112,6 +112,13 @@ header {
   margin: 3.1rem 0;
   width: 100%;
 }
+
+ .header-widget-area {
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex; 	
+ }
+
 /* logo */
 .logo {
  
@@ -175,6 +182,9 @@ header {
 /*------------------------------------*\
     PAGES
 \*------------------------------------*/
+ .header-widget-area {
+
+ }
 
  button {
     -webkit-appearance: none;
@@ -182,12 +192,22 @@ header {
     background: none;
     outline: none;
 }
- .icon {
+ .ic-apple {
    background: url('img/icons/ic-apple.svg') no-repeat center;
    width: 17px;
-   height: 20px;	
+   width: 1.7rem
+   height: 20px;
+   height: 2rem;	
  }
-.cta-button {
+ .ic-unicorn {
+ 	background: url('img/icons/ic-unicorn.svg') no-repeat center;
+    width: 20px;
+    width: 2.0rem;
+    height: 20px;
+   height: 2rem;   
+ }
+.cta-button, 
+.log-button {
 	background: #dc4ba3;
 	border-radius: 3px;
 	display: -webkit-box;
@@ -207,14 +227,22 @@ header {
 	-ms-flex-align: center;
 	align-items: center;
 }
+.log-button, 
+.grey {
+	background: #b3b3b3;
+	width: 209px;
+	width: 20.9rem;
+	margin-left: 26px;
+	margin-left: 2.6rem;
+}
 
-.cta-button a {
+.cta-button a,
+.log-button a {
 	margin-left: 11px;
 	margin-left: 1.1rem;
 	margin-top: 2px
 	margin-top: .2rem
 }
-
 
 /*------------------------------------*\
     IMAGES
@@ -226,7 +254,8 @@ header {
 	TYPOGRAPHY
 \*------------------------------------*/
  
- .cta-button a {
+ .cta-button a,
+ .log-button  a {
  	font-family: 'museo-sans-rounded900', Helvetica, Arial, sans-serif;
     font-size: 1.182rem;
 	color: #ffffff;

@@ -47,11 +47,11 @@
 					</nav>
 					<!-- /nav -->
 
-					  <!-- apps -->
-                      <section class="button-download" role="button">
+					  <!-- apps/login -->
+                      <section class="header-widget-area" role="button">
                      	<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('header-widget-area')) ?>
                       </section>
-                      <!-- /apps -->
+                      <!-- /apps/login -->
 
 					<!-- hero -->
 					<section class="hero" role="banner">

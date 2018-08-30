@@ -503,7 +503,7 @@ class Button_Widget extends WP_Widget {
     public function widget( $args, $instance ) {
 
         echo '<button class="cta-button '.$instance['cta_button_class'].'">
-                <span class="icon"></span><a href="'.$instance['cta_button_url'].'">'.$instance['cta_button_text'].'</a>
+                <span class="icon ic-apple"></span><a href="'.$instance['cta_button_url'].'">'.$instance['cta_button_text'].'</a>
              </button>';
 
     }
@@ -562,5 +562,96 @@ function cta_register_widgets() {
     register_widget( 'Button_Widget' );
 }
 add_action( 'widgets_init', 'cta_register_widgets' );
+
+
+/*
+  Plugin Name: Login for owners
+  Plugin URI: http://mypony.com
+  Description: Login button by Denis
+  Author: Denis Sekovanic
+  Author URI: http://mypony.com
+ */
+ 
+/**
+ * Adds Login_Button widget.
+ */
+
+class Login_Widget extends WP_Widget {
+
+    public function __construct() {
+
+        parent::__construct(
+            'login-button-widget',
+            __( 'Login button', 'log' ),
+            array(
+                'description' => __( 'Adding button for logging owners into header...', 'log' ),
+                'classname'   => 'login-button-widget',
+            )
+        );
+
+    }
+
+    public function widget( $args, $instance ) {
+
+        echo '<button class="log-button grey'.$instance['cta_button_class'].'">
+                <span class="icon ic-unicorn"></span><a href="'.$instance['log_button_url'].'">'.$instance['log_button_text'].'</a>
+             </button>';
+
+    }
+
+    public function form( $instance ) {
+
+        // Set default values
+        $instance = wp_parse_args( (array) $instance, array( 
+            'log_button_text' => '',
+            'log_button_url' => '',
+            'log_button_class' => '',
+        ) );
+
+        // Retrieve an existing value from the database
+        $log_button_text = !empty( $instance['log_button_text'] ) ? $instance['log_button_text'] : '';
+        $log_button_url = !empty( $instance['log_button_url'] ) ? $instance['log_button_url'] : '';
+        $log_button_class = !empty( $instance['log_button_class'] ) ? $instance['log_button_class'] : '';
+
+        // Form fields
+        echo '<p>';
+        echo '  <label for="' . $this->get_field_id( 'log_button_text' ) . '" class="log_button_text_label">' . __( 'Button Text', 'log' ) . '</label>';
+        echo '  <input type="text" id="' . $this->get_field_id( 'log_button_text' ) . '" name="' . $this->get_field_name( 'log_button_text' ) . '" class="widefat" placeholder="' . esc_attr__( 'Login text', 'log' ) . '" value="' . esc_attr( $log_button_text ) . '">';
+        echo '</p>';
+
+        echo '<p>';
+        echo '  <label for="' . $this->get_field_id( 'log_button_url' ) . '" class="log_button_url_label">' . __( 'Sign up text', 'log' ) . '</label>';
+        echo '  <input type="text" id="' . $this->get_field_id( 'log_button_url' ) . '" name="' . $this->get_field_name( 'log_button_url' ) . '" class="widefat" placeholder="' . esc_attr__( 'Login URL', 'log' ) . '" value="' . esc_attr( $log_button_url ) . '">';
+        echo '  <span class="description">' . __( 'Use absolute or relative url', 'cta' ) . '</span>';
+        echo '</p>';
+
+        echo '<p>';
+        echo '  <label for="' . $this->get_field_id( 'log_button_class' ) . '" class="log_button_class_label">' . __( 'Extra class to add to the button', 'log' ) . '</label>';
+        echo '  <input type="text" id="' . $this->get_field_id( 'log_button_class' ) . '" name="' . $this->get_field_name( 'log_button_class' ) . '" class="widefat" placeholder="' . esc_attr__( '', 'log' ) . '" value="' . esc_attr( $log_button_class ) . '">';
+        echo '</p>';
+
+    }
+
+    public function update( $new_instance, $old_instance ) {
+
+        $instance = $old_instance;
+
+        $instance['log_button_text'] = !empty( $new_instance['log_button_text'] ) ? strip_tags( $new_instance['log_button_text'] ) : '';
+        $instance['log_button_url'] = !empty( $new_instance['log_button_url'] ) ? strip_tags( $new_instance['log_button_url'] ) : '';
+        $instance['log_button_class'] = !empty( $new_instance['log_button_class'] ) ? strip_tags( $new_instance['log_button_class'] ) : '';
+
+        return $instance;
+
+    }
+
+}
+
+/**
+/* Fire up this widget  
+*/
+function log_register_widgets() {
+    register_widget( 'Login_Widget' );
+}
+add_action( 'widgets_init', 'log_register_widgets' );
 
 ?>
