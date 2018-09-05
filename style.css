@@ -255,7 +255,7 @@ header {
 \*------------------------------------*/
  
  .cta-button a,
- .log-button  a {
+ .log-button a {
  	font-family: 'museo-sans-rounded900', Helvetica, Arial, sans-serif;
     font-size: 1.182rem;
 	color: #ffffff;
