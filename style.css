@@ -254,17 +254,31 @@ form {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  margin: 33px auto;
-  margin: 3.3rem auto;
+  margin: 33px auto 120px auto;
+  margin: 3.3rem auto 12rem auto;
+  position: relative;
 }
 
 .search-input {
 	border: none;
 	outline: none;
+	background: url('img/icons/ic-search.svg') no-repeat 5% 50%;
+	height: 19px;
+	height: 1.9rem;
+    padding: 0 0 0 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    width: 10rem;
 }
 .search-input:focus {
 	border: none;
+	background: none;
 }
+
+/*.search-input[placeholder] {
+	margin: ;
+}*/
 
 /*------------------------------------*\
     IMAGES

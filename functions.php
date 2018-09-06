@@ -25,6 +25,10 @@ if (function_exists('add_theme_support'))
     // Add Menu Support
     add_theme_support('menus');
 
+    //
+    add_post_type_support( 'page', 'excerpt' );
+
+
     // Add Thumbnail Theme Support
     add_theme_support('post-thumbnails');
     add_image_size('large', 700, '', true); // Large Thumbnail
