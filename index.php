@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+<?php //if ( is_home() && ! is_front_page() ) : ?>
 
 	<main role="main">
 		<!-- section -->
@@ -13,6 +14,7 @@
 		</section>
 		<!-- /section -->
 	</main>
+<?php //endif; ?>
 
 <?php get_sidebar(); ?>
 

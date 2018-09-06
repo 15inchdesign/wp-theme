@@ -200,10 +200,10 @@ header {
    height: 2rem;	
  }
  .ic-unicorn {
- 	background: url('img/icons/ic-unicorn.svg') no-repeat center;
-    width: 20px;
-    width: 2.0rem;
-    height: 20px;
+   background: url('img/icons/ic-unicorn.svg') no-repeat center;
+   width: 20px;
+   width: 2.0rem;
+   height: 20px;
    height: 2rem;   
  }
 .cta-button, 
@@ -244,6 +244,28 @@ header {
 	margin-top: .2rem
 }
 
+form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 33px auto;
+  margin: 3.3rem auto;
+}
+
+.search-input {
+	border: none;
+	outline: none;
+}
+.search-input:focus {
+	border: none;
+}
+
 /*------------------------------------*\
     IMAGES
 \*------------------------------------*/
@@ -253,6 +275,15 @@ header {
 /*------------------------------------*\
 	TYPOGRAPHY
 \*------------------------------------*/
+
+ .blog-headline {
+ 	color: #dd50a5;
+ 	font-family: 'museo-sans-rounded100', Helvetica, Arial, sans-serif;
+ 	font-size: 3.182rem;
+ 	text-align: center;
+ 	font-weight: normal;
+ 	margin: 9.1rem auto auto;
+ }
  
  .cta-button a,
  .log-button a {
@@ -270,6 +301,12 @@ header {
  .nav ul li a {
  	font-family: 'museo-sans-rounded700', Helvetica, Arial, sans-serif;
  	font-size: 1.455rem;
+ }
+ .search-input {
+ 	color: #626262;
+ 	font-family: 'museo-sans-rounded500', Helvetica, Arial, sans-serif;
+    font-size: 1.273rem;
+
  }  
 
 /*------------------------------------*\

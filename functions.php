@@ -190,6 +190,17 @@ if (function_exists('register_sidebar'))
         'before_title' => '<h3>',
         'after_title' => '</h3>'
     ));
+        
+    // Define Header Widget Area
+    register_sidebar(array(
+        'name' => __('Search area', 'unicorn'),
+        'description' => __('Search field in header', 'unicorn'),
+        'id' => 'search-widget-area',
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h3>',
+        'after_title' => '</h3>'
+    ));
 
     // Define Sidebar Widget Area 1
     register_sidebar(array(
@@ -418,6 +429,7 @@ add_shortcode('html5_shortcode_demo_2', 'html5_shortcode_demo_2'); // Place [htm
 function create_post_type_html5()
 {
     register_taxonomy_for_object_type('category', 'html5-blank'); // Register Taxonomies for Category
+    register_taxonomy_for_object_type('posts', 'html5-blank');
     register_taxonomy_for_object_type('post_tag', 'html5-blank');
     register_post_type('html5-blank', // Register Custom Post Type
         array(
@@ -447,10 +459,59 @@ function create_post_type_html5()
         'can_export' => true, // Allows export in Tools > Export
         'taxonomies' => array(
             'post_tag',
-            'category'
+            'category',
+            'taxonomy'
         ) // Add Category and Post Tags support
     ));
 }
+
+// Register Custom Taxonomy
+function custom_taxonomy() {
+
+    $labels = array(
+        'name'                       => _x( 'Taxonomies', 'Taxonomy General Name', 'text_domain' ),
+        'singular_name'              => _x( 'Taxonomy', 'Taxonomy Singular Name', 'text_domain' ),
+        'menu_name'                  => __( 'Taxonomy', 'text_domain' ),
+        'all_items'                  => __( 'All Items', 'text_domain' ),
+        'parent_item'                => __( 'Parent Item', 'text_domain' ),
+        'parent_item_colon'          => __( 'Parent Item:', 'text_domain' ),
+        'new_item_name'              => __( 'New Item Name', 'text_domain' ),
+        'add_new_item'               => __( 'Add New Item', 'text_domain' ),
+        'edit_item'                  => __( 'Edit Item', 'text_domain' ),
+        'update_item'                => __( 'Update Item', 'text_domain' ),
+        'view_item'                  => __( 'View Item', 'text_domain' ),
+        'separate_items_with_commas' => __( 'Separate items with commas', 'text_domain' ),
+        'add_or_remove_items'        => __( 'Add or remove items', 'text_domain' ),
+        'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
+        'popular_items'              => __( 'Popular Items', 'text_domain' ),
+        'search_items'               => __( 'Search Items', 'text_domain' ),
+        'not_found'                  => __( 'Not Found', 'text_domain' ),
+        'no_terms'                   => __( 'No items', 'text_domain' ),
+        'items_list'                 => __( 'Items list', 'text_domain' ),
+        'items_list_navigation'      => __( 'Items list navigation', 'text_domain' ),
+    );
+    $capabilities = array(
+        'manage_terms'               => 'manage_categories',
+        'edit_terms'                 => 'manage_categories',
+        'delete_terms'               => 'manage_categories',
+        'assign_terms'               => 'edit_posts',
+    );
+    $args = array(
+        'labels'                     => $labels,
+        'hierarchical'               => true,
+        'public'                     => true,
+        'show_ui'                    => true,
+        'show_admin_column'          => true,
+        'show_in_nav_menus'          => true,
+        'show_tagcloud'              => true,
+        'capabilities'               => $capabilities,
+        'show_in_rest'               => true,
+        'rewrite'                    => array('slug' => 'news'),
+    );
+    register_taxonomy( 'taxonomy', array( 'posts' ), $args );
+
+}
+add_action( 'init', 'custom_taxonomy', 0 );
 
 /*------------------------------------*\
 	ShortCode Functions
