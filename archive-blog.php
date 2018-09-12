@@ -1,4 +1,7 @@
-<?php /* Template Name: Blog Page  */ get_header(); ?>
+
+
+
+<?php get_header(); /* Custom posts view */ ?>
 <main role="main">
 	<h1 class="blog-headline"><?php the_title(); ?></h1>
 
@@ -19,7 +22,7 @@
 
 			    <?php if ( has_post_thumbnail()) : // Check if thumbnail exists ?>
 				  <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-				<?php the_post_thumbnail(array()); // Declare pixel size you need inside the array ?>
+				  <?php the_post_thumbnail(array()); // Declare pixel size you need inside the array ?>
 			</a>
 
 			<?php endif; ?>
@@ -42,4 +45,5 @@
 	</section>
 	<!-- /section -->
 </main>
+
 <?php get_footer(); ?>

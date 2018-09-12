@@ -163,6 +163,30 @@ header {
   color: #df5cab;
 }
 
+/* main */
+main {
+ display: -webkit-box;
+ display: -ms-flexbox;
+ display: flex;
+ -webkit-box-orient: vertical;
+ -webkit-box-direction: normal;
+ -ms-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  width: 100%;
+}
+
+.posts {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.hentry {
+	width: 44%;
+    margin-left:;
+    margin-left: 6rem;
+    margin-right: 6rem;
+}
+
 
 
 /* sidebar */
@@ -243,9 +267,22 @@ header {
 	margin-top: 2px
 	margin-top: .2rem
 }
+.search-widget {
+	display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 33px auto 120px auto;
+    margin: 3.3rem auto 12rem auto;
+}
 
 form {
-  display: -webkit-box;
+ /* display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
@@ -255,7 +292,7 @@ form {
   -ms-flex-pack: center;
   justify-content: center;
   margin: 33px auto 120px auto;
-  margin: 3.3rem auto 12rem auto;
+  margin: 3.3rem auto 12rem auto;*/
   position: relative;
 }
 
@@ -270,20 +307,34 @@ form {
     margin-right: auto;
     width: 100px;
     width: 10rem;
+    border-top: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-bottom: 1px solid transparent ;
 }
 .search-input:focus {
-	border: none;
-	background: none;
+	border-top: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+	border-bottom: 1px solid #dd50a5;
+	outline: none;
 }
 
 /*.search-input[placeholder] {
 	margin: ;
 }*/
 
+article {
+	
+}
+
 /*------------------------------------*\
     IMAGES
 \*------------------------------------*/
 
+.post-img {
+	width: 50.8rem;
+}
 
 
 /*------------------------------------*\
@@ -320,8 +371,21 @@ form {
  	color: #626262;
  	font-family: 'museo-sans-rounded500', Helvetica, Arial, sans-serif;
     font-size: 1.273rem;
+ }
 
- }  
+ .date {
+ 	color: #c4c4c4;
+ 	font-family: 'museo-sans-rounded500', Helvetica, Arial, sans-serif;
+ 	font-size: 1.091rem;
+ }
+
+ article h1 {
+ 	color: #555555;
+ 	font-family: 'museo-sans-rounded100', Helvetica, Arial, sans-serif;
+ 	font-size: 2.364rem;
+ 	margin: 1.9rem 0;
+ }
+   
 
 /*------------------------------------*\
     RESPONSIVE

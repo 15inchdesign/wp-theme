@@ -26,7 +26,7 @@ if (function_exists('add_theme_support'))
     add_theme_support('menus');
 
     //
-    add_post_type_support( 'page', 'excerpt' );
+  //  add_post_type_support( 'page', 'excerpt' );
 
 
     // Add Thumbnail Theme Support
@@ -379,7 +379,7 @@ add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditi
 add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
 add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
 add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
-add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
+//add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
 add_action('init', 'html5wp_pagination'); // Add our HTML5 Pagination
 
@@ -426,11 +426,40 @@ add_shortcode('html5_shortcode_demo_2', 'html5_shortcode_demo_2'); // Place [htm
 // [html5_shortcode_demo] [html5_shortcode_demo_2] Here's the page title! [/html5_shortcode_demo_2] [/html5_shortcode_demo]
 
 /*------------------------------------*\
-	Custom Post Types
+     Add tag support to pages
 \*------------------------------------*/
 
+// add tag support to pages
+function tags_support_all() {
+    register_taxonomy_for_object_type('post_tag', 'page');
+}
+
+// ensure all tags are included in queries
+function tags_support_query($wp_query) {
+    if ($wp_query->get('tag')) $wp_query->set('post_type', 'any');
+}
+
+// Then add custom class for styling
+function add_class_the_tags($html){
+    $postid = get_the_ID();
+    $html = str_replace('<a','<a class="unicorn-tag"',$html);
+    return $html;
+}
+
+// add filter
+add_filter('the_tags','add_class_the_tags',10,1);
+
+// tag hooks
+add_action('init', 'tags_support_all');
+add_action('pre_get_posts', 'tags_support_query');
+
+
+/*------------------------------------*\
+	Custom Post Types
+\*------------------------------------*/
+// Register Custom Post Type
 // Create 1 Custom Post type for a Demo, called HTML5-Blank
-function create_post_type_html5()
+/*function create_post_type_html5()
 {
     register_taxonomy_for_object_type('category', 'html5-blank'); // Register Taxonomies for Category
     register_taxonomy_for_object_type('posts', 'html5-blank');
@@ -467,55 +496,8 @@ function create_post_type_html5()
             'taxonomy'
         ) // Add Category and Post Tags support
     ));
-}
+}*/
 
-// Register Custom Taxonomy
-function custom_taxonomy() {
-
-    $labels = array(
-        'name'                       => _x( 'Taxonomies', 'Taxonomy General Name', 'text_domain' ),
-        'singular_name'              => _x( 'Taxonomy', 'Taxonomy Singular Name', 'text_domain' ),
-        'menu_name'                  => __( 'Taxonomy', 'text_domain' ),
-        'all_items'                  => __( 'All Items', 'text_domain' ),
-        'parent_item'                => __( 'Parent Item', 'text_domain' ),
-        'parent_item_colon'          => __( 'Parent Item:', 'text_domain' ),
-        'new_item_name'              => __( 'New Item Name', 'text_domain' ),
-        'add_new_item'               => __( 'Add New Item', 'text_domain' ),
-        'edit_item'                  => __( 'Edit Item', 'text_domain' ),
-        'update_item'                => __( 'Update Item', 'text_domain' ),
-        'view_item'                  => __( 'View Item', 'text_domain' ),
-        'separate_items_with_commas' => __( 'Separate items with commas', 'text_domain' ),
-        'add_or_remove_items'        => __( 'Add or remove items', 'text_domain' ),
-        'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
-        'popular_items'              => __( 'Popular Items', 'text_domain' ),
-        'search_items'               => __( 'Search Items', 'text_domain' ),
-        'not_found'                  => __( 'Not Found', 'text_domain' ),
-        'no_terms'                   => __( 'No items', 'text_domain' ),
-        'items_list'                 => __( 'Items list', 'text_domain' ),
-        'items_list_navigation'      => __( 'Items list navigation', 'text_domain' ),
-    );
-    $capabilities = array(
-        'manage_terms'               => 'manage_categories',
-        'edit_terms'                 => 'manage_categories',
-        'delete_terms'               => 'manage_categories',
-        'assign_terms'               => 'edit_posts',
-    );
-    $args = array(
-        'labels'                     => $labels,
-        'hierarchical'               => true,
-        'public'                     => true,
-        'show_ui'                    => true,
-        'show_admin_column'          => true,
-        'show_in_nav_menus'          => true,
-        'show_tagcloud'              => true,
-        'capabilities'               => $capabilities,
-        'show_in_rest'               => true,
-        'rewrite'                    => array('slug' => 'news'),
-    );
-    register_taxonomy( 'taxonomy', array( 'posts' ), $args );
-
-}
-add_action( 'init', 'custom_taxonomy', 0 );
 
 /*------------------------------------*\
 	ShortCode Functions
