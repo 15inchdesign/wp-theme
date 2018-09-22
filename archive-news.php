@@ -1,31 +1,28 @@
 
 
 
-<?php get_header(); /* Custom posts view */ ?>
+
+<?php get_header(); /* Single posts view */ ?>
 <main role="main">
 	<h1 class="blog-headline"><?php the_title(); ?></h1>
 
 	<!-- section -->
 	<section>
 		<?php if (have_posts()): while (have_posts()) : the_post(); ?>
-
-		<!-- search form -->
-		    <div class="search-widget">
-		       <?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('search-widget-area')) ?>
-	        </div>
-		<!-- search form -->
 		
 		<!-- content -->
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
-			<?php the_content(); ?>
+			
 
 			    <?php if ( has_post_thumbnail()) : // Check if thumbnail exists ?>
 				  <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-				  <?php the_post_thumbnail(array()); // Declare pixel size you need inside the array ?>
+				  <?php the_post_thumbnail('', array('data-rjs' => '2')); // Declare pixel size you need inside the array ?>
 			</a>
+		
 
 			<?php endif; ?>
+			
+			 <?php the_content(); ?>
 
 			<br class="clear">
 

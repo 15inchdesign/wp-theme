@@ -25,8 +25,8 @@ if (function_exists('add_theme_support'))
     // Add Menu Support
     add_theme_support('menus');
 
-    //
-  //  add_post_type_support( 'page', 'excerpt' );
+
+   // add_post_type_support( 'page', 'excerpt' );
 
 
     // Add Thumbnail Theme Support
@@ -85,10 +85,29 @@ function header_nav()
 		'link_after'      => '',
 		'items_wrap'      => '<ul>%3$s</ul>',
 		'depth'           => 0,
-		'walker'          => ''
+		'walker'          => ''//new Custom_Walker_Nav_Menu_Top()
+
+
 		)
 	);
 }
+
+/*class Custom_Walker_Nav_Menu_top extends Walker_Nav_Menu
+{
+    function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+        $is_current_item = '';
+        if(array_search('current-menu-item', $item->classes) != 0)
+        {
+            $is_current_item = ' class="active"';
+        }
+        echo '<li'.$is_current_item.'><a href="'.$item->url.'">'.$item->title;
+    }
+
+    function end_el( &$output, $item, $depth = 0, $args = array() ) {
+        echo '</a></li>';
+    }
+}*/
+
 
 // Load HTML5 Blank scripts (header.php)
 function html5blank_header_scripts()
@@ -194,12 +213,33 @@ if (function_exists('register_sidebar'))
         'before_title' => '<h3>',
         'after_title' => '</h3>'
     ));
+
+     // Define custom blog Widget Area
+     register_sidebar(array(
+        'name' => __('Blog header area', 'unicorn'),
+        'description' => __('Custom headline for blog page', 'unicorn'),
+        'id' => 'blog-custom-heading-area',
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h3>',
+        'after_title' => '</h3>'
+    ));
         
     // Define Header Widget Area
     register_sidebar(array(
         'name' => __('Search area', 'unicorn'),
         'description' => __('Search field in header', 'unicorn'),
         'id' => 'search-widget-area',
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget' => '</div>',
+        'before_title' => '<h3>',
+        'after_title' => '</h3>'
+    ));
+
+    register_sidebar(array(
+        'name' => __('Blog header area', 'unicorn'),
+        'description' => __('Custom headline for blog page', 'unicorn'),
+        'id' => 'blog-custom-heading-area',
         'before_widget' => '<div id="%1$s" class="%2$s">',
         'after_widget' => '</div>',
         'before_title' => '<h3>',
@@ -252,6 +292,7 @@ function html5wp_pagination()
     ));
 }
 
+
 // Custom Excerpts
 function html5wp_index($length) // Create 20 Word Callback for Index page Excerpts, call using html5wp_excerpt('html5wp_index');
 {
@@ -262,6 +303,10 @@ function html5wp_index($length) // Create 20 Word Callback for Index page Excerp
 function html5wp_custom_post($length)
 {
     return 40;
+}
+function html5wp_custom_excerpt($length)
+{
+    return 35;
 }
 
 // Create the Custom Excerpts callback
@@ -274,6 +319,7 @@ function html5wp_excerpt($length_callback = '', $more_callback = '')
     if (function_exists($more_callback)) {
         add_filter('excerpt_more', $more_callback);
     }
+    //$output = the_content();
     $output = get_the_excerpt();
     $output = apply_filters('wptexturize', $output);
     $output = apply_filters('convert_chars', $output);
@@ -285,9 +331,8 @@ function html5wp_excerpt($length_callback = '', $more_callback = '')
 function html5_blank_view_article($more)
 {
     global $post;
-    return '... <a class="view-article" href="' . get_permalink($post->ID) . '">' . __('View Article', 'html5blank') . '</a>';
+    return '... <a class="view-article" href="' . get_permalink($post->ID) . '">' . __('Read more', 'unicorn') . '</a>';
 }
-
 // Remove Admin bar
 function remove_admin_bar()
 {
@@ -379,7 +424,8 @@ add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditi
 add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
 add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
 add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
-//add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
+//add_action('init', 'create_post_news'); // Add our Custom Post Type
+//add_action( 'init', 'create_post_news'); // Add custom post type with taxonomy
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
 add_action('init', 'html5wp_pagination'); // Add our HTML5 Pagination
 
@@ -459,46 +505,54 @@ add_action('pre_get_posts', 'tags_support_query');
 \*------------------------------------*/
 // Register Custom Post Type
 // Create 1 Custom Post type for a Demo, called HTML5-Blank
-/*function create_post_type_html5()
+/*function create_post_news()
 {
-    register_taxonomy_for_object_type('category', 'html5-blank'); // Register Taxonomies for Category
-    register_taxonomy_for_object_type('posts', 'html5-blank');
-    register_taxonomy_for_object_type('post_tag', 'html5-blank');
-    register_post_type('html5-blank', // Register Custom Post Type
+    register_taxonomy_for_object_type('category', 'news'); // Register Taxonomies for Category
+    register_taxonomy_for_object_type('posts', 'news');
+    register_taxonomy_for_object_type('post_tag', 'news');
+    register_taxonomy_for_object_type('slug', 'news');
+    register_post_type('news', // Register Custom Post Type
         array(
         'labels' => array(
-            'name' => __('HTML5 Blank Custom Post', 'html5blank'), // Rename these to suit
-            'singular_name' => __('HTML5 Blank Custom Post', 'html5blank'),
-            'add_new' => __('Add New', 'html5blank'),
-            'add_new_item' => __('Add New HTML5 Blank Custom Post', 'html5blank'),
-            'edit' => __('Edit', 'html5blank'),
-            'edit_item' => __('Edit HTML5 Blank Custom Post', 'html5blank'),
-            'new_item' => __('New HTML5 Blank Custom Post', 'html5blank'),
-            'view' => __('View HTML5 Blank Custom Post', 'html5blank'),
-            'view_item' => __('View HTML5 Blank Custom Post', 'html5blank'),
-            'search_items' => __('Search HTML5 Blank Custom Post', 'html5blank'),
-            'not_found' => __('No HTML5 Blank Custom Posts found', 'html5blank'),
-            'not_found_in_trash' => __('No HTML5 Blank Custom Posts found in Trash', 'html5blank')
+            'name' => __('News', 'news'), // Rename these to suit
+            'singular_name' => __('Post News', 'news'),
+            'add_new' => __('Add New', 'news'),
+            'add_new_item' => __('Add News Post', 'news'),
+            'edit' => __('Edit', 'news'),
+            'edit_item' => __('Edit News Post', 'news'),
+            'new_item' => __('New news Post', 'news'),
+            'view' => __('View News', 'news'),
+            'view_item' => __('View News', 'news'),
+            'search_items' => __('Search News', 'news'),
+            'not_found' => __('No News found', 'news'),
+            'not_found_in_trash' => __('No News found in Trash', 'news')
         ),
         'public' => true,
         'hierarchical' => true, // Allows your posts to behave like Hierarchy Pages
         'has_archive' => true,
+        'rewrite' => array( 'slug' => 'news', 'with_front' => true ),
         'supports' => array(
             'title',
             'editor',
             'excerpt',
-            'thumbnail'
+            'thumbnail',
+            'tags'
         ), // Go to Dashboard Custom HTML5 Blank post for supports
         'can_export' => true, // Allows export in Tools > Export
         'taxonomies' => array(
             'post_tag',
             'category',
-            'taxonomy'
+            'slug',
         ) // Add Category and Post Tags support
     ));
 }*/
 
+function reg_tag() {
+     register_taxonomy_for_object_type('post_tag', 'news');
+}
+add_action('init', 'reg_tag');
 
+    
 /*------------------------------------*\
 	ShortCode Functions
 \*------------------------------------*/
@@ -517,7 +571,7 @@ function html5_shortcode_demo_2($atts, $content = null) // Demo Heading H2 short
 
 
 /*------------------------------------*\
-    Custom Widgets
+    Custom Widgets -> must be in plugin
 \*------------------------------------*/
 
 /*
@@ -700,5 +754,43 @@ function log_register_widgets() {
     register_widget( 'Login_Widget' );
 }
 add_action( 'widgets_init', 'log_register_widgets' );
+
+/*function pages_excerpt() {
+add_post_type_support( 'page', 'excerpt' );
+}*/
+
+
+add_action('nav_menu_css_class', 'add_current_nav_class', 10, 2 );  
+function add_current_nav_class($classes, $item) {  
+  // Getting the current post details  
+  global $post;  
+  // Make sure we're not on a single blog post before running the code...  
+  if ( !is_singular( 'post' ) ) {
+    // Getting the post type of the current post  
+    $current_post_type = get_post_type_object(get_post_type($post->ID));  
+    $current_post_type_slug = $current_post_type->rewrite['slug'];  
+    // Getting the URL of the menu item  
+    $menu_slug = strtolower(trim($item->url));  
+    // If the menu item URL contains the current post types slug add the current-menu-item class  
+    if (strpos($menu_slug,$current_post_type_slug) !== false) {  
+      $classes[] = 'current-menu-item';  
+    }   
+    // as we are not on a single blog post, stop blog menu from highlighting  
+    else {  
+      $classes = array_diff( $classes, array( 'current_page_parent' ) );  
+    }  
+  }
+  // Return the corrected set of classes to be added to the menu item  
+  return $classes;  
+}  
+add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);
+
+function special_nav_class ($classes, $item) {
+    if (in_array('current-post-ancestor', $classes) || in_array('current-page-ancestor', $classes) || in_array('current-menu-item', $classes) ){
+        $classes[] = 'active ';
+    }
+    return $classes;
+}
+
 
 ?>
