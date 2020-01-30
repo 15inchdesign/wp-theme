@@ -62,7 +62,7 @@ b. It should be loaded via action_hooks.
 
   
 
-**Bonus points:**
+**It would be good:**
 
 - Boilerplate for plugin.
 
